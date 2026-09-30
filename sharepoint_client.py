@@ -617,7 +617,7 @@ class SharePointClient:
             "Observaciones vendedor", "ID Forms Mobility", "Número oferta cargador"
         ]
 
-        internals = ["Id", "Title"]
+        internals = ["Id", "Title", "Created"]
         for field in canonical_fields:
             internal = self.internal_name(field)
             if internal and internal not in internals:
@@ -676,6 +676,7 @@ class SharePointClient:
         return {
             "Id": raw_item.get("Id"),
             "Title": raw_item.get("Title", ""),
+            "FechaCreacion": raw_item.get("Created", ""),
 
             "OP": op_value,
             "OrigenOferta": self.get_display_value(raw_item, "Origen de la oferta"),

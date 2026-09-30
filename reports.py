@@ -1779,6 +1779,7 @@ def table_rows(items, limit=300):
             "SolicitudEquipos": format_date(item.get("FechaSolicitudEquipos")),
             "ReciboCotizacionEquipos": format_date(item.get("FechaRecibidoCotizacionEquipos")),
             "EstadoCotizacionEquipos": item.get("RequiereCotizacionEquipos", ""),
+            "DiasHabilesDesdeCreacion": dias_habiles_desde_creacion(item),
             "TAMOT": item.get("TAMOT", ""),
         })
 
@@ -2033,6 +2034,12 @@ def dias_habiles_tiempo_ot(item):
     #. Por solicitud del usuario,
     # no debe mostrar solo el número; debe mostrar A tiempo OT o X días hábiles de retraso.
     return detalle_tiempo_ot(item).get("tiempo_ot", "")
+
+
+def dias_habiles_desde_creacion(item):
+    """Calcula días hábiles desde la creación de la oferta hasta hoy."""
+    fecha_creacion = parse_date(item.get("FechaCreacion"))
+    return business_days_between(fecha_creacion, date.today())
 
 
 def estado_tiempo_ot(item):

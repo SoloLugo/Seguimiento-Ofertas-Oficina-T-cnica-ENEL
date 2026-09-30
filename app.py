@@ -66,7 +66,8 @@ def compact_list_item(item):
     keys = (
         "Id", "Title", "OP", "NumeroVersion", "NombreCliente", "KAM",
         "Segmento", "Producto", "EstadoOfertaOT", "EstadoGeneral",
-        "FechaUltimaVersion", "ValorUltimaOferta", "Aliado", "NumeroCRM"
+        "FechaUltimaVersion", "FechaAceptacionBrief", "ValorUltimaOferta",
+        "Aliado", "NumeroCRM"
     )
     return {key: item.get(key) for key in keys}
 

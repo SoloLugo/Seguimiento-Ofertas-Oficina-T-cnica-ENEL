@@ -195,6 +195,34 @@ textarea {
     min-width: 0 !important;
 }
 
+/* Mantiene alineados encabezado y filas sin dejar que el thead ocupe toda la vista. */
+.tabla-principal {
+    display: block;
+}
+
+.tabla-principal thead,
+.tabla-principal tbody {
+    display: block;
+}
+
+.tabla-principal thead tr,
+.tabla-principal tbody tr {
+    display: grid;
+    grid-template-columns: 70px 1.1fr 2.2fr 1.2fr .8fr .9fr 1.2fr .8fr .9fr .8fr;
+    min-width: 0;
+    width: 100%;
+}
+
+.tabla-principal thead th,
+.tabla-principal tbody td {
+    width: auto !important;
+    min-width: 0;
+}
+
+.tabla-principal thead th {
+    height: auto;
+}
+
 .tabla-excel thead th {
     position: sticky;
     top: 0;
@@ -295,6 +323,13 @@ textarea {
 .col-fecha {
     width: 8%;
     min-width: 92px;
+    white-space: normal;
+    font-size: .72rem;
+}
+
+.col-fecha-aceptacion {
+    width: 10%;
+    min-width: 120px;
     white-space: normal;
     font-size: .72rem;
 }

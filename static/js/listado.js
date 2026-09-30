@@ -15,7 +15,7 @@ async function listarTodo() {
         if (tbody) {
             tbody.innerHTML = `
                 <tr>
-                    <td colspan="9" class="text-center loading-text">Cargando registros...</td>
+                    <td colspan="10" class="text-center loading-text">Cargando registros...</td>
                 </tr>
             `;
         }
@@ -46,7 +46,7 @@ async function buscarRegistros() {
         if (tbody) {
             tbody.innerHTML = `
                 <tr>
-                    <td colspan="9" class="text-center loading-text">Buscando...</td>
+                    <td colspan="10" class="text-center loading-text">Buscando...</td>
                 </tr>
             `;
         }
@@ -212,8 +212,13 @@ function limpiarFiltrosTabla() {
 function pintarTabla(items) {
     const tbody = document.getElementById("tablaRegistros");
     const contador = document.getElementById("contador");
+    const scrollContainer = document.querySelector(".table-scroll-main");
 
     if (!tbody) return;
+
+    if (scrollContainer) {
+        scrollContainer.scrollLeft = 0;
+    }
 
     window.listadoItemsFiltrados = Array.isArray(items) ? items : [];
 
@@ -224,7 +229,7 @@ function pintarTabla(items) {
     if (!window.listadoItemsFiltrados.length) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="9" class="text-center text-muted">No se encontraron registros.</td>
+                <td colspan="10" class="text-center text-muted">No se encontraron registros.</td>
             </tr>
         `;
         return;
@@ -265,6 +270,7 @@ function pintarTabla(items) {
             <td class="col-producto">${escapeHtml(item.Producto || "")}</td>
             <td class="col-estado">${escapeHtml(item.EstadoOfertaOT || "")}</td>
             <td class="col-fecha">${formatearFecha(item.FechaUltimaVersion)}</td>
+            <td class="col-fecha-aceptacion">${formatearFecha(item.FechaAceptacionBrief)}</td>
             <td class="valor-cop col-valor">${formatearCOP(item.ValorUltimaOferta)}</td>
         </tr>
     `).join("");

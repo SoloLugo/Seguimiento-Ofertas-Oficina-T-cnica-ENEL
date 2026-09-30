@@ -1053,6 +1053,11 @@ function detailTable(title, rows, type = "general", extraButton = "") {
     "EstadoCotizacionEquipos"
 ];
 
+    const jefaturaCols = [
+        ...baseCols,
+        "DiasHabilesDesdeCreacion"
+    ];
+
     const bpCols = [
         "Title",
         "Origen de la oferta",
@@ -1196,6 +1201,8 @@ function detailTable(title, rows, type = "general", extraButton = "") {
                 ? vigCols
                 : type === "alerta"
                 ? alertaCols
+                : type === "jefatura"
+                ? jefaturaCols
                 : type === "contrato"
                     ? contratoCols
                     : type === "pv"
@@ -1222,7 +1229,8 @@ function detailTable(title, rows, type = "general", extraButton = "") {
         DiasRetrasoOT: "Días de retraso OT",
         SolicitudEquipos: "Solicitud equipos",
         ReciboCotizacionEquipos: "Recibo cotización equipos",
-        EstadoCotizacionEquipos: "Estado cotización equipos"
+        EstadoCotizacionEquipos: "Estado cotización equipos",
+        DiasHabilesDesdeCreacion: "Días hábiles desde creación"
     };
 
     return `
@@ -1683,7 +1691,7 @@ function pintarReporteCompleto(r) {
         </div>
 
         <div class="mt-3">
-            ${detailTable("Detalle para ofertas en proceso", jf.rows, "general", btnExcelJef)}
+            ${detailTable("Detalle para ofertas en proceso", jf.rows, "jefatura", btnExcelJef)}
         </div>
     `;
 
