@@ -1,0 +1,455 @@
+{#
+    ============================================================
+    DOCUMENTACIÓN DE PLANTILLA
+    ============================================================
+    Vista de estadísticas: filtros, KPIs, análisis de tiempos y tablas de detalle.
+
+    Convenciones:
+    - Los bloques Jinja permiten heredar estructura desde base.html.
+    - Los ids/clases son usados por CSS y por JavaScript embebido; cambiar nombres puede romper filtros o renderizados.
+    - Las llamadas fetch consumen endpoints Flask definidos en app.py o routes/export_routes.py.
+    ============================================================
+#}
+<div class="tab-pane fade" id="tabStats">
+
+    <style>
+        /* ============================================================
+           FILTROS ESTADÍSTICAS EN UNA SOLA LÍNEA
+        ============================================================ */
+
+        #tabStats .stats-filter-card {
+            overflow: visible !important;
+            position: relative;
+            z-index: 100;
+        }
+
+        #tabStats .stats-filter-line {
+            display: grid;
+            grid-template-columns:
+                minmax(105px, 1fr)
+                minmax(120px, 1fr)
+                minmax(145px, 1.35fr)
+                minmax(145px, 1.35fr)
+                minmax(145px, 1.35fr)
+                minmax(145px, 1.35fr)
+                minmax(135px, .9fr)
+                minmax(105px, .7fr);
+            gap: 8px;
+            align-items: end;
+            width: 100%;
+        }
+
+        #tabStats .stats-filter-line label {
+            font-size: .68rem;
+            font-weight: 800;
+            color: #263238;
+            margin-bottom: 3px;
+        }
+
+        #tabStats .stats-filter-line .btn {
+            height: 42px;
+            font-size: .78rem;
+            font-weight: 900;
+            padding: 6px 10px;
+            border-radius: 10px;
+        }
+
+        #tabStats .stats-filter-help {
+            font-size: .62rem;
+            color: #6c757d;
+            display: block;
+            margin-top: 2px;
+            white-space: nowrap;
+        }
+
+        #tabStats .custom-multiselect {
+            position: relative;
+            width: 100%;
+        }
+
+        #tabStats .custom-multiselect-menu {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            z-index: 99999;
+            min-width: 100%;
+            width: max-content;
+            max-width: 330px;
+        }
+
+        #tabStats .stats-loading-box {
+            border: 1px dashed #b8d7ff;
+            background: #f8fbff;
+            color: #0057b8;
+            border-radius: 12px;
+            padding: 14px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        /* ============================================================
+           TARJETA ESTADO GENERAL
+        ============================================================ */
+
+        #tabStats .stat-status {
+            background: linear-gradient(135deg, #37474f, #607d8b);
+            color: #ffffff;
+        }
+
+        #tabStats .stat-status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        #tabStats .stat-status-grid button {
+            border: 1px solid rgba(255, 255, 255, .45);
+            background: rgba(255, 255, 255, .14);
+            color: #ffffff;
+            border-radius: 10px;
+            padding: 8px 6px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        #tabStats .stat-status-grid button:hover {
+            background: rgba(255, 255, 255, .24);
+        }
+
+        #tabStats .stat-status-grid small {
+            display: block;
+            font-size: .68rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        #tabStats .stat-status-grid strong {
+            display: block;
+            font-size: 1.45rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        @media (max-width: 1200px) {
+            #tabStats .stats-filter-card {
+                overflow-x: auto !important;
+                overflow-y: visible !important;
+            }
+
+            #tabStats .stats-filter-line {
+                min-width: 1080px;
+            }
+        }
+    </style>
+
+    <div class="card p-3 mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h4 class="mb-1">Estadísticas generales</h4>
+                <p class="text-muted mb-0">
+                    Resumen filtrable por año, mes, segmento, producto, estado y tipo de versión.
+                </p>
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+                <button class="btn btn-app-success" onclick="exportarDataStats()">
+                    Exportar data
+                </button>
+
+                <button class="btn btn-app-secondary" onclick="exportarPdfStats()">
+                    Exportar PDF
+                </button>
+
+                <button class="btn btn-outline-primary fw-bold" onclick="exportarPdfTiempos()">
+                    PDF tiempos
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="card p-2 mb-4 stats-filter-card">
+        <div class="stats-filter-line">
+
+            <div>
+                <label>Año</label>
+                <div id="statsFiltroAnio"></div>
+            </div>
+
+            <div>
+                <label>Mes</label>
+                <div id="statsFiltroMes"></div>
+            </div>
+
+            <div>
+                <label>Segmento</label>
+                <div id="statsFiltroSegmento"></div>
+            </div>
+
+            <div>
+                <label>Producto</label>
+                <div id="statsFiltroProducto"></div>
+            </div>
+
+            <div>
+                <label>Estado</label>
+                <div id="statsFiltroEstadoGeneral"></div>
+            </div>
+
+            <div>
+                <label>Estado O.T.</label>
+                <div id="statsFiltroEstadoOT"></div>
+            </div>
+
+            <div>
+                <label>Tipo versión</label>
+                <div id="statsFiltroTipoVersion"></div>
+            </div>
+
+            <div>
+                <button
+                    class="btn btn-sm btn-app-primary w-100"
+                    id="btnActualizarStats"
+                    onclick="actualizarDatosStats()"
+                >
+                    Actualizar datos
+                </button>
+            </div>
+
+            <div>
+                <button class="btn btn-sm btn-outline-secondary w-100" onclick="limpiarFiltrosStats()">
+                    Limpiar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- TARJETAS PRINCIPALES -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-5 g-3 mb-4">
+
+        <div class="col">
+            <div class="stat-card stat-total stat-clickable" onclick="verDetalleEstadoStats('total')">
+                <span>Total registros</span>
+                <strong id="statTotal">0</strong>
+                <small>Click para ver detalle</small>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="stat-card stat-win stat-clickable" onclick="verDetalleEstadoStats('ganadas')">
+                <span>Ofertas ganadas</span>
+                <strong id="statGanadas">0</strong>
+                <small>Click para ver detalle</small>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="stat-card stat-loss stat-clickable" onclick="verDetalleEstadoStats('perdidas')">
+                <span>Ofertas perdidas</span>
+                <strong id="statPerdidas">0</strong>
+                <small>Click para ver detalle</small>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="stat-card stat-delivered stat-clickable" onclick="verDetalleEstadoStats('entregadas')">
+                <span>Entregadas a KAM</span>
+                <strong id="statEntregadas">0</strong>
+                <small>Click para ver detalle</small>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="stat-card stat-status">
+                <span>Estado general</span>
+
+                <div class="stat-status-grid">
+                    <button type="button" onclick="verDetalleEstadoStats('activas')">
+                        <small>Activas</small>
+                        <strong id="statActivas">0</strong>
+                    </button>
+
+                    <button type="button" onclick="verDetalleEstadoStats('cerradas')">
+                        <small>Cerradas</small>
+                        <strong id="statCerradas">0</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- DISTRIBUCIONES -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-6">
+            <div class="card p-3 h-100 stats-card-table">
+                <h5 class="mb-3">Distribución por segmento</h5>
+                <div id="tablaPorSegmento">
+                    <p class="text-muted">Pendiente por cargar.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card p-3 h-100 stats-card-table">
+                <h5 class="mb-3">Distribución por producto</h5>
+                <div id="tablaPorProducto">
+                    <p class="text-muted">Pendiente por cargar.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card p-3 h-100 stats-card-table">
+                <h5 class="mb-3">Distribución por KAM</h5>
+                <div id="tablaPorKAM">
+                    <p class="text-muted">Pendiente por cargar.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card p-3 h-100 stats-card-table">
+                <h5 class="mb-3">Distribución por estado de oferta</h5>
+                <div id="tablaPorEstado">
+                    <p class="text-muted">Pendiente por cargar.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TIEMPOS -->
+    <div class="card p-3 mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <div>
+                <h5 class="mb-1">Promedio de tiempos del proceso</h5>
+                <p class="text-muted mb-0">
+                    Días hábiles, excluyendo sábados, domingos y festivos de Colombia.
+                </p>
+            </div>
+
+            <button class="btn btn-outline-primary fw-bold" onclick="exportarPdfTiempos()">
+                Descargar PDF de tiempos
+            </button>
+        </div>
+
+        <div class="row g-3" id="cardsTiemposProceso">
+            <div class="col-md-12 text-muted">
+                Pendiente por cargar.
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETALLE TIEMPOS -->
+    <div class="modal fade" id="modalDetalleTiempo" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <div class="modal-header app-modal-header">
+                    <h5 class="modal-title" id="tituloDetalleTiempo">Detalle del tiempo</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover tabla-excel">
+                            <thead class="table-app">
+                                <tr>
+                                    <th>Acción</th>
+                                    <th>OP</th>
+                                    <th>Versión</th>
+                                    <th>Tipo versión</th>
+                                    <th>Cliente</th>
+                                    <th>KAM</th>
+                                    <th>Segmento</th>
+                                    <th>Producto</th>
+                                    <th>Estado O.T.</th>
+                                    <th>Fecha inicio</th>
+                                    <th>Fecha fin</th>
+                                    <th>Días hábiles</th>
+                                    <th>Regla aplica</th>
+                                    <th>Requiere visita ?</th>
+                                    <th>Requiere Factibilidad</th>
+                                    <th>Requiere cotización equipos</th>
+                                    <th>Campo fecha inicio</th>
+                                    <th>Campo fecha fin</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tablaDetalleTiempo">
+                                <tr>
+                                    <td colspan="18" class="text-center text-muted">
+                                        Sin datos.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cerrar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETALLE ESTADOS -->
+    <div class="modal fade" id="modalDetalleEstadoStats" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <div class="modal-header app-modal-header">
+                    <h5 class="modal-title" id="tituloDetalleEstadoStats">Detalle de ofertas</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover tabla-excel">
+                            <thead class="table-app">
+                                <tr>
+                                    <th>Acción</th>
+                                    <th>OP</th>
+                                    <th>Versión</th>
+                                    <th>Tipo versión</th>
+                                    <th>Cliente</th>
+                                    <th>KAM</th>
+                                    <th>Segmento</th>
+                                    <th>Producto</th>
+                                    <th>Estado</th>
+                                    <th>Estado O.T.</th>
+                                    <th>Fecha última versión</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tablaDetalleEstadoStats">
+                                <tr>
+                                    <td colspan="18" class="text-center text-muted">
+                                        Sin datos.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cerrar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

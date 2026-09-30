@@ -1,0 +1,7 @@
+Sales Support y Free Market se agrupan como B2B.
+Lighting y Lightning se muestran como Navidad en Producto, Segmento y Aliado.
+Los filtros, estadísticas, reportes y exportaciones usan estos nombres.
+El reporte AP / Navidad reconoce el producto Navidad y conserva compatibilidad con nombres anteriores.
+Los datos históricos se homologan al leerlos, sin actualización masiva en SharePoint.
+Las opciones vigentes deben estar configuradas también en la lista SharePoint para guardar nuevos registros.
+Reemplazar la carpeta del programa y reiniciar la aplicación.

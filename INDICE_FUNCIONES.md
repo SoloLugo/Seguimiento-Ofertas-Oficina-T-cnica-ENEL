@@ -1,0 +1,214 @@
+# Índice de funciones documentadas
+
+Este índice lista funciones y clases encontradas en los módulos Python principales.
+
+## `app.py`
+
+- Línea 37: **Función `parse_money_value`** — Propósito:
+- Línea 71: **Función `is_yes_value`** — Propósito:
+- Línea 89: **Función `derive_tipo_proyecto_from_form`** — Propósito:
+- Línea 117: **Función `normalize_form_payload`** — Propósito:
+- Línea 151: **Función `normalize_list`** — Recibe los valores repetidos de querystring.
+- Línea 173: **Función `get_common_filters`** — Propósito:
+- Línea 203: **Función `force_refresh_requested`** — Propósito:
+- Línea 221: **Función `item_matches_any`** — Propósito:
+- Línea 242: **Función `filter_items_for_stats_multi`** — Propósito:
+- Línea 272: **Función `estado_ac`** — Propósito:
+- Línea 345: **Función `month_label`** — Propósito:
+- Línea 379: **Función `home`** — Propósito:
+- Línea 398: **Función `health`** — Propósito:
+- Línea 417: **Función `api_choices`** — Propósito:
+- Línea 445: **Función `api_items`** — Propósito:
+- Línea 468: **Función `api_search`** — Propósito:
+- Línea 502: **Función `api_item`** — Propósito:
+- Línea 528: **Función `api_create`** — Propósito:
+- Línea 557: **Función `api_update`** — Propósito:
+- Línea 586: **Función `api_delete`** — Propósito:
+- Línea 614: **Función `api_stats`** — Propósito:
+- Línea 647: **Función `api_stats_time_detail`** — Propósito:
+- Línea 677: **Función `api_report`** — Propósito:
+- Línea 707: **Función `open_local_app`** — Propósito:
+
+## `reports.py`
+
+- Línea 166: **Función `norm`** — Propósito:
+- Línea 184: **Función `normkey`** — Propósito:
+- Línea 202: **Función `normkey_ascii`** — Normaliza texto para comparar estados sin depender de tildes.
+- Línea 210: **Función `estado_key_ascii`** — Propósito:
+- Línea 228: **Función `yes`** — Propósito:
+- Línea 256: **Función `to_number`** — Propósito:
+- Línea 295: **Función `format_date`** — Propósito:
+- Línea 314: **Función `format_cop_value`** — Propósito:
+- Línea 337: **Función `estado_text`** — Propósito:
+- Línea 355: **Función `normalizar_tipo_proyecto`** — Devuelve el valor exacto permitido para Tipo py o vacío si no hay dato real.
+- Línea 389: **Función `tipo_proyecto_item`** — Lee el Tipo py real de SharePoint.
+- Línea 405: **Función `sla_global_item`** — ANS total de oferta según la tabla enviada por el usuario.
+- Línea 433: **Función `count_rows`** — Propósito:
+- Línea 448: **Función `value_for`** — Propósito:
+- Línea 476: **Función `fecha_base_reporte`** — Fecha base unificada para filtros generales del reporte.
+- Línea 490: **Función `fecha_gestion_op_mes`** — Fecha para OP gestionadas por mes.
+- Línea 499: **Función `count_by_month_date_getter`** — Propósito:
+- Línea 528: **Función `apply_period_filter_date_getter`** — Propósito:
+- Línea 567: **Función `weekdays_between_no_holidays`** — Días hábiles lunes-viernes, excluyendo fecha inicial e incluyendo final.
+- Línea 590: **Función `get_report_year`** — Propósito:
+- Línea 609: **Función `get_report_month`** — Propósito:
+- Línea 628: **Función `count_by_month`** — Propósito:
+- Línea 669: **Función `count_by_year`** — Propósito:
+- Línea 706: **Función `count_by_two_fields`** — Propósito:
+- Línea 723: **Función `row_val`** — Propósito:
+- Línea 743: **Función `col_val`** — Propósito:
+- Línea 793: **Función `latest_by_op`** — Propósito:
+- Línea 832: **Función `amount_max_by_op`** — Propósito:
+- Línea 859: **Función `total_offer_days`** — Propósito:
+- Línea 880: **Función `avg_total_offer_time`** — Propósito:
+- Línea 903: **Función `cot_recot`** — Propósito:
+- Línea 936: **Función `is_cancelada`** — Propósito:
+- Línea 960: **Función `is_brief_rechazado`** — Propósito:
+- Línea 984: **Función `is_entregada_kam`** — Propósito:
+- Línea 1004: **Función `is_ganada`** — Propósito:
+- Línea 1028: **Función `is_ya_gestionada_estado`** — Regla única por Estado O.T. para Ya gestionadas y Entregadas.
+- Línea 1046: **Función `fecha_ya_gestionada`** — Fecha de ubicación para registros ya gestionados por Estado O.T.
+- Línea 1057: **Función `count_by_year_date_getter`** — Propósito:
+- Línea 1086: **Función `is_en_firmas`** — Cuenta únicamente el estado real Circuito Firmas.
+- Línea 1096: **Función `categoria_proceso`** — Propósito:
+- Línea 1149: **Función `is_proceso_comercial`** — Propósito:
+- Línea 1167: **Función `is_proceso_tecnico`** — Propósito:
+- Línea 1185: **Función `is_cerrada`** — Propósito:
+- Línea 1207: **Función `estado_activa_cerrada`** — Propósito:
+- Línea 1233: **Función `is_en_proceso`** — Propósito:
+- Línea 1251: **Función `resumen_general`** — Resumen superior del reporte.
+- Línea 1335: **Función `get_month_value_from_field`** — Propósito:
+- Línea 1366: **Función `managed_items_for_timing`** — Base para tiempos del reporte.
+- Línea 1387: **Función `avg_stage_by_month`** — Propósito:
+- Línea 1452: **Función `avg_offer_time_by_month`** — Propósito:
+- Línea 1492: **Función `firmas_avg_by_month`** — Propósito:
+- Línea 1542: **Función `ans_global_by_month`** — Propósito:
+- Línea 1589: **Función `ans_firmas_by_month`** — Cumplimiento ANS de estructuración: aliado -> inicio de firmas.
+- Línea 1633: **Función `entregadas_mes_tam`** — Propósito:
+- Línea 1681: **Función `table_rows`** — Propósito:
+- Línea 1731: **Función `bp_detail_rows`** — Filas para la hoja BP del reporte Power BI.
+- Línea 1837: **Función `detalle_tiempo_ot`** — Calcula la alerta de tiempo OT desde FechaEntregaOfertaAliado hasta hoy.
+- Línea 1895: **Función `dias_habiles_tiempo_ot`** — Propósito:
+- Línea 1916: **Función `estado_tiempo_ot`** — Propósito:
+- Línea 1934: **Función `dias_retraso_tiempo_ot`** — Propósito:
+- Línea 1951: **Función `selected_filter_values`** — Propósito:
+- Línea 1972: **Función `filters_without_period`** — Propósito:
+- Línea 1994: **Función `apply_period_filter`** — Propósito:
+- Línea 2043: **Función `filter_report_items`** — Propósito:
+- Línea 2058: **Función `selected`** — Propósito:
+- Línea 2124: **Función `has_any_estado`** — Propósito:
+- Línea 2144: **Función `es_producto_ap_lighting`** — Identifica productos AP / Lighting desde el valor real de SharePoint.
+- Línea 2164: **Función `es_producto_pv`** — Propósito:
+- Línea 2183: **Función `build_report`** — Propósito:
+
+## `routes/export_routes.py`
+
+- Línea 49: **Función `normalizar_lista`** — Propósito:
+- Línea 78: **Función `get_filters_from_request`** — Propósito:
+- Línea 109: **Función `get_filtered_items`** — Propósito:
+- Línea 138: **Función `texto_filtros`** — Propósito:
+- Línea 181: **Función `limpiar_texto`** — Propósito:
+- Línea 199: **Función `format_cop`** — Propósito:
+- Línea 224: **Función `format_fecha`** — Propósito:
+- Línea 255: **Función `export_data_excel`** — Propósito:
+- Línea 318: **Función `crear_tabla_simple`** — Propósito:
+- Línea 374: **Función `export_pdf_stats`** — Propósito:
+- Línea 449: **Función `get_pdf_styles`** — Propósito:
+- Línea 498: **Función `get_default_table_style`** — Propósito:
+- Línea 532: **Función `valor_promedio`** — Propósito:
+- Línea 553: **Función `crear_tabla_tiempos`** — tipo:
+- Línea 605: **Función `export_pdf_tiempos`** — Propósito:
+- Línea 684: **Función `register_export_routes`** — Propósito:
+- Línea 701: **Función `api_export_data`** — Propósito:
+- Línea 725: **Función `api_export_pdf`** — Propósito:
+- Línea 749: **Función `api_export_pdf_tiempos`** — Propósito:
+- Línea 793: **Función `get_report_filters_from_request`** — Propósito:
+- Línea 821: **Función `get_report_data`** — Propósito:
+- Línea 840: **Función `rows_from_section`** — Propósito:
+- Línea 871: **Función `build_report_pdf`** — Propósito:
+- Línea 932: **Función `export_rows_excel`** — Propósito:
+- Línea 970: **Función `safe_sheet_name`** — Propósito:
+- Línea 992: **Función `flatten_excel_value`** — Propósito:
+- Línea 1014: **Función `normalize_excel_row`** — Propósito:
+- Línea 1050: **Función `append_rows_sheet`** — Propósito:
+- Línea 1094: **Función `collect_section_tables`** — Propósito:
+- Línea 1224: **Función `export_report_table_excel`** — Propósito:
+- Línea 1248: **Función `export_report_sheet_excel`** — Exporta solo la tabla de datos principal de la hoja.
+- Línea 1261: **Función `export_report_full_excel`** — Exporta únicamente las tablas de datos detalladas del reporte.
+- Línea 1316: **Función `register_export_routes`** — Propósito:
+- Línea 1334: **Función `api_export_report_pdf`** — Propósito:
+- Línea 1356: **Función `api_export_report_excel`** — Propósito:
+- Línea 1377: **Función `api_export_report_sheet_excel`** — Propósito:
+- Línea 1398: **Función `api_export_report_table_excel`** — Propósito:
+- Línea 1419: **Función `api_export_report_vigentes_excel`** — Propósito:
+- Línea 1441: **Función `api_export_report_proceso_excel`** — Propósito:
+- Línea 1463: **Función `api_export_report_jefatura_excel`** — Propósito:
+- Línea 1485: **Función `api_export_report_alertas_excel`** — Propósito:
+
+## `sharepoint_client.py`
+
+- Línea 29: **Clase `SharePointClient`** — Propósito:
+- Línea 38: **Función `__init__`** — Propósito:
+- Línea 67: **Función `invalidate_cache`** — Vacía la caché de registros después de crear, actualizar o eliminar.
+- Línea 74: **Función `_cache_is_valid`** — Propósito:
+- Línea 94: **Función `reset_browser_refs`** — Limpia referencias cuando Chrome/Playwright pierde la sesión.
+- Línea 112: **Función `_context_is_alive`** — Propósito:
+- Línea 136: **Función `_page_is_alive`** — Propósito:
+- Línea 158: **Función `init_browser`** — Abre Chrome en SharePoint y garantiza que exista un contexto válido.
+- Línea 210: **Función `_sp_fetch_once`** — Consulta SharePoint usando el request context de Playwright.
+- Línea 250: **Función `sp_fetch`** — Ejecuta fetch contra SharePoint y reconstruye Chrome/contexto si se cerró.
+- Línea 296: **Función `list_title_safe`** — Propósito:
+- Línea 313: **Función `get_digest`** — Propósito:
+- Línea 341: **Función `load_field_map`** — Propósito:
+- Línea 389: **Función `normalize_field_name`** — Normaliza nombres de columnas para evitar fallos por espacios, puntos, mayúsculas o acentos.
+- Línea 398: **Función `resolve_display_title`** — Propósito:
+- Línea 435: **Función `internal_name`** — Propósito:
+- Línea 463: **Función `get_display_value`** — Propósito:
+- Línea 485: **Función `get_any_value`** — Propósito:
+- Línea 519: **Función `_public_select_internals`** — Columnas mínimas usadas por listado, filtros, estadísticas y reportes.
+- Línea 566: **Función `to_public_item`** — Propósito:
+- Línea 732: **Función `raw_to_display_item`** — Propósito:
+- Línea 857: **Función `form_to_sharepoint_payload`** — Propósito:
+- Línea 890: **Función `get_items`** — Propósito:
+- Línea 934: **Función `get_public_items`** — Propósito:
+- Línea 958: **Función `get_item`** — Propósito:
+- Línea 976: **Función `create_item`** — Propósito:
+- Línea 1006: **Función `update_item`** — Propósito:
+- Línea 1038: **Función `delete_item`** — Propósito:
+- Línea 1069: **Función `get_choices`** — Propósito:
+
+## `stats.py`
+
+- Línea 25: **Función `parse_date_cached`** — Propósito:
+- Línea 85: **Función `parse_date`** — Propósito:
+- Línea 112: **Función `easter_date`** — Propósito:
+- Línea 145: **Función `next_monday`** — Propósito:
+- Línea 167: **Función `colombia_holidays`** — Festivos de Colombia sin usar la librería holidays.
+- Línea 214: **Función `colombia_holidays_range`** — Propósito:
+- Línea 237: **Función `count_weekdays_excluding_start_including_end`** — Cuenta lunes a viernes desde el día siguiente a start hasta end.
+- Línea 262: **Función `business_days_between_cached`** — Propósito:
+- Línea 301: **Función `business_days_between`** — Propósito:
+- Línea 328: **Función `format_date`** — Propósito:
+- Línea 355: **Función `clean`** — Propósito:
+- Línea 373: **Función `lower`** — Propósito:
+- Línea 391: **Función `normalize_filter_values`** — Soporta:
+- Línea 418: **Función `matches_filter`** — Propósito:
+- Línea 439: **Función `get_fecha_ultima_version`** — Fecha base de estadísticas.
+- Línea 458: **Función `get_year_from_item`** — Propósito:
+- Línea 477: **Función `get_month_from_item`** — Propósito:
+- Línea 496: **Función `get_version_number`** — Propósito:
+- Línea 524: **Función `get_version_type`** — Propósito:
+- Línea 550: **Función `get_estado_general`** — Propósito:
+- Línea 572: **Función `get_estado_oferta_ot`** — Propósito:
+- Línea 594: **Función `filter_items_for_stats`** — Propósito:
+- Línea 667: **Función `count_by`** — Propósito:
+- Línea 694: **Función `count_by_estado_ot`** — Propósito:
+- Línea 721: **Función `get_filter_options`** — Propósito:
+- Línea 850: **Función `get_time_definition`** — Propósito:
+- Línea 872: **Función `avg_from_sum`** — Propósito:
+- Línea 898: **Función `is_yes`** — Propósito:
+- Línea 917: **Función `is_frontier_product`** — Propósito:
+- Línea 936: **Función `metric_applies`** — Propósito:
+- Línea 988: **Función `build_time_metrics`** — Calcula los promedios de tiempos por tramo.
+- Línea 1058: **Función `build_time_detail`** — Propósito:
+- Línea 1132: **Función `build_stats`** — Propósito:

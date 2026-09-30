@@ -1,0 +1,38 @@
+{#
+    ============================================================
+    DOCUMENTACIÓN DE PLANTILLA
+    ============================================================
+    Página inicial: punto de entrada visual hacia las principales secciones de la aplicación.
+
+    Convenciones:
+    - Los bloques Jinja permiten heredar estructura desde base.html.
+    - Los ids/clases son usados por CSS y por JavaScript embebido; cambiar nombres puede romper filtros o renderizados.
+    - Las llamadas fetch consumen endpoints Flask definidos en app.py o routes/export_routes.py.
+    ============================================================
+#}
+{% extends 'base.html' %}
+{% block content %}
+
+<ul class='nav nav-pills mb-3 app-tabs'>
+    <li class='nav-item'>
+        <button class='nav-link active' data-bs-toggle='tab' data-bs-target='#tabListado' type='button'>Listar / Buscar</button>
+    </li>
+    <li class='nav-item'>
+        <button class='nav-link' data-bs-toggle='tab' data-bs-target='#tabFormulario' type='button' onclick='nuevoRegistro()'>Nuevo / Editar</button>
+    </li>
+    <li class='nav-item'>
+        <button class='nav-link' data-bs-toggle='tab' data-bs-target='#tabStats' type='button' onclick='cargarEstadisticas()'>Estadísticas</button>
+    </li>
+    <li class='nav-item'>
+        <button class='nav-link' data-bs-toggle='tab' data-bs-target='#tabReportes' type='button' onclick='cargarReportes()'>Reporte Power BI</button>
+    </li>
+</ul>
+
+<div class='tab-content'>
+    {% include 'listado.html' %}
+    {% include 'formulario.html' %}
+    {% include 'stats.html' %}
+    {% include 'reportes.html' %}
+</div>
+
+{% endblock %}

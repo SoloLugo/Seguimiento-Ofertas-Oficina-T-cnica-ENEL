@@ -1,0 +1,293 @@
+{#
+    ============================================================
+    DOCUMENTACIÓN DE PLANTILLA
+    ============================================================
+    Pantalla de creación/edición: presenta campos del seguimiento OT y reglas visuales del formulario.
+
+    Convenciones:
+    - Los bloques Jinja permiten heredar estructura desde base.html.
+    - Los ids/clases son usados por CSS y por JavaScript embebido; cambiar nombres puede romper filtros o renderizados.
+    - Las llamadas fetch consumen endpoints Flask definidos en app.py o routes/export_routes.py.
+    ============================================================
+#}
+<div class="tab-pane fade" id="tabFormulario">
+
+    <div class="card p-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 id="tituloFormulario" class="mb-0">Nuevo registro</h4>
+            <span id="lblId" class="badge text-bg-secondary d-none"></span>
+        </div>
+
+        <form id="formOP">
+            <input type="hidden" id="ItemId">
+
+            <div class="section-title">Información general</div>
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <label>OP</label>
+                    <input type="text" class="form-control" data-title="OP" id="OP" required>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Origen de la oferta</label>
+                    <select class="form-select" data-title="Origen de la oferta" data-choice="Origen de la oferta">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Nombre cliente</label>
+                    <input type="text" class="form-control" data-title="Nombre cliente">
+                </div>
+
+                <div class="col-md-3">
+                    <label>KAM</label>
+                    <select class="form-select" data-title="KAM" data-choice="KAM">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Segmento</label>
+                    <select class="form-select" data-title="Segmento" data-choice="Segmento">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Producto</label>
+                    <select class="form-select" data-title="Producto" data-choice="Producto">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Cantidad de luminarias <small class="text-muted">(solo producto AP)</small></label>
+                    <input type="number" min="0" step="1" class="form-control" data-title="Cantidad de luminarias" disabled>
+                </div>
+
+                <div class="col-md-3">
+    <label>Estado</label>
+    <select class="form-select" data-title="Estado" data-choice="Estado">
+        <option value=""></option>
+    </select>
+</div>
+
+            </div>
+
+            <div class="section-title">Versión / oferta</div>
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <label>Número de Versión</label>
+                    <input type="text" class="form-control" data-title="Número de Versión">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha última versión</label>
+                    <input type="date" class="form-control" data-title="Fecha última versión">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Aliado</label>
+                    <select class="form-select" data-title="Aliado" data-choice="Aliado">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>TAM O.T.</label>
+                    <select class="form-select" data-title="TAM O.T." data-choice="TAM O.T.">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Estado Oferta O.T.</label>
+                    <select class="form-select" data-title="Estado Oferta O.T." data-choice="Estado Oferta O.T.">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Valor última oferta antes de IVA</label>
+                    <input type="number" step="0.01" class="form-control" data-title="Valor última oferta antes de IVA">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Cantidad cargadores en oferta</label>
+                    <input type="number" min="0" step="1" class="form-control" data-title="Cantidad Cargadores OT">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Tipo py</label>
+                    <select class="form-select" data-title="Tipo py" data-choice="Tipo de proyecto">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha de Vigencia de Oferta</label>
+                    <input type="date" class="form-control" data-title="Fecha de Vigencia de Oferta">
+                </div>
+
+            </div>
+
+            <div class="section-title">Brief y cliente</div>
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <label>Fecha Aceptación Brief</label>
+                    <input type="date" class="form-control" data-title="Fecha Aceptación Brief">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha envío brief a Aliado</label>
+                    <input type="date" class="form-control" data-title="Fecha envío brief a Aliado">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha real contacto Cliente</label>
+                    <input type="date" class="form-control" data-title="Fecha real contacto Cliente">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Requiere visita</label>
+                    <select class="form-select" data-title="Requiere visita" data-choice="Requiere visita">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha programación visita</label>
+                    <input type="date" class="form-control" data-title="Fecha programación visita">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha de visita al Cliente</label>
+                    <input type="date" class="form-control" data-title="Fecha de visita al Cliente">
+                </div>
+
+            </div>
+
+            <div class="section-title">Factibilidad</div>
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <label>Requiere Factibilidad</label>
+                    <select class="form-select" data-title="Requiere Factibilidad" data-choice="Requiere Factibilidad">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha solicitud de Factibilidad</label>
+                    <input type="date" class="form-control" data-title="Fecha solicitud de Factibilidad">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha radicación Factibilidad</label>
+                    <input type="date" class="form-control" data-title="Fecha radicación Factibilidad">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Número de factibilidad</label>
+                    <input type="text" class="form-control" data-title="Número de factibilidad">
+                </div>
+
+                <div class="col-md-12">
+                    <label>Observación factibilidad</label>
+                    <textarea class="form-control" data-title="Observación factibilidad"></textarea>
+                </div>
+
+            </div>
+
+            <div class="section-title">Equipos</div>
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <label>Requiere cotización de equipos</label>
+                    <select class="form-select" data-title="Requiere cotización de equipos" data-choice="Requiere cotización de equipos">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha solicitud de equipos</label>
+                    <input type="date" class="form-control" data-title="Fecha solicitud de equipos">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha recibido cotización de equipos</label>
+                    <input type="date" class="form-control" data-title="Fecha recibido cotización de equipos">
+                </div>
+
+            </div>
+
+            <div class="section-title">Construcción, validación, firmas y entrega</div>
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <label>Fecha entrega oferta por parte Aliado</label>
+                    <input type="date" class="form-control" data-title="Fecha entrega oferta por parte Aliado">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha Fin construcción oferta OT</label>
+                    <input type="date" class="form-control" data-title="Fecha Fin construcción oferta OT">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha Entrega Validación Staff <small class="text-muted">(si aplica)</small></label>
+                    <input type="date" class="form-control" data-title="Fecha Entrega Validación Staff">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha Inicio Circuito de Firmas</label>
+                    <input type="date" class="form-control" data-title="Fecha Inicio Circuito de Firmas">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha de Entrega a KAM</label>
+                    <input type="date" class="form-control" data-title="Fecha de Entrega a KAM">
+                </div>
+
+            </div>
+
+            <div class="section-title">Observaciones</div>
+
+            <div class="row g-3">
+
+               <div class="col-md-6">
+    <label>Histórico observaciones OP</label>
+    <textarea class="form-control campo-observacion-alto" data-title="Histórico observaciones OP" rows="8"></textarea>
+</div>
+
+<div class="col-md-6">
+    <label>Observaciones</label>
+    <textarea class="form-control campo-observacion-alto" data-title="Observaciones" rows="8"></textarea>
+</div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="button" class="btn btn-app-success" onclick="guardarRegistro()">Guardar</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="nuevoRegistro()">Limpiar</button>
+                <button type="button" class="btn btn-outline-primary" onclick="abrirTabListado()">Volver al listado</button>
+                <button type="button" id="btnPrepararRecotizacion" class="btn btn-outline-warning d-none" onclick="prepararRecotizacionDesdeFormulario()">Copiar como recotización</button>
+                <button type="button" id="btnEliminarEditar" class="btn btn-app-danger d-none ms-auto" onclick="eliminarRegistroDesdeFormulario()">
+                    Eliminar registro
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

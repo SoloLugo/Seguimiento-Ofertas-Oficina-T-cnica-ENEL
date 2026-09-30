@@ -1,0 +1,194 @@
+{#
+    ============================================================
+    DOCUMENTACIÓN DE PLANTILLA
+    ============================================================
+    Listado operativo: muestra registros, búsqueda, acciones y acceso a edición/eliminación.
+
+    Convenciones:
+    - Los bloques Jinja permiten heredar estructura desde base.html.
+    - Los ids/clases son usados por CSS y por JavaScript embebido; cambiar nombres puede romper filtros o renderizados.
+    - Las llamadas fetch consumen endpoints Flask definidos en app.py o routes/export_routes.py.
+    ============================================================
+#}
+<div class="tab-pane fade show active" id="tabListado">
+
+    <!-- BUSCADOR + ACCIONES -->
+    <div class="card p-3 mb-3 panel-busqueda">
+        <div class="row g-2 align-items-end">
+
+            <div class="col-md-4">
+                <label>Buscar por OP o cliente</label>
+                <input
+                    type="text"
+                    id="txtBuscar"
+                    class="form-control"
+                    placeholder="Ej: OP-123456 o nombre cliente"
+                >
+            </div>
+
+            <div class="col-md-2 acciones-principales">
+                <button class="btn btn-app-primary w-100" onclick="buscarRegistros()">
+                    Buscar
+                </button>
+            </div>
+
+            <div class="col-md-2 acciones-principales">
+                <button class="btn btn-app-secondary w-100" onclick="listarTodo()">
+                    Listar todo
+                </button>
+            </div>
+
+            <div class="col-md-2 acciones-principales">
+                <button class="btn btn-app-success w-100" onclick="abrirNuevo()">
+                    Nuevo registro
+                </button>
+            </div>
+
+            <div class="col-md-1 acciones-principales">
+                <button class="btn btn-outline-secondary w-100" onclick="limpiarFiltrosTabla()">
+                    Limpiar
+                </button>
+            </div>
+
+            <div class="col-md-1 acciones-principales">
+                <div class="counter-box" id="contador">0</div>
+            </div>
+
+        </div>
+
+        <!-- FILTROS SUPERIORES -->
+        <div class="row mt-2">
+            <div class="col-md-12">
+                <div class="filtros-secundarios-box">
+
+                    <div class="filtro-mini">
+                        <label>Año</label>
+                        <div id="filtroAnio"></div>
+                    </div>
+
+                    <div class="filtro-mini">
+                        <label>Mes</label>
+                        <div id="filtroMes"></div>
+                    </div>
+
+                    <div class="filtro-mini">
+                        <label>Estado</label>
+                        <div id="filtroEstadoGeneral"></div>
+                    </div>
+
+                    <div class="filtro-mini filtro-estado-ot-top">
+                        <label>Estado O.T.</label>
+                        <div id="filtroEstadoTop"></div>
+                    </div>
+
+                    <div class="filtro-mini">
+                        <label>Aliado</label>
+                        <div id="filtroAliadoTop"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLA PRINCIPAL -->
+    <div class="card p-2 list-table-card">
+        <div class="table-scroll-main">
+            <table class="table table-sm table-hover align-middle tabla-excel tabla-principal">
+                <thead class="table-app">
+                    <tr>
+                        <th class="col-acciones">
+                            Acción
+                        </th>
+
+                        <th class="col-op">
+                            OP / Versión
+                            <div class="mt-1" id="filtroOP"></div>
+                        </th>
+
+                        <th class="col-cliente">
+                            Cliente
+                            <div class="mt-1" id="filtroCliente"></div>
+                        </th>
+
+                        <th class="col-kam">
+                            KAM
+                            <div class="mt-1" id="filtroKAM"></div>
+                        </th>
+
+                        <th class="col-segmento">
+                            Segmento
+                            <div class="mt-1" id="filtroSegmento"></div>
+                        </th>
+
+                        <th class="col-producto">
+                            Producto
+                            <div class="mt-1" id="filtroProducto"></div>
+                        </th>
+
+                        <th class="col-estado">
+                            Estado O.T.
+                            <div class="mt-1" id="filtroEstado"></div>
+                        </th>
+
+                        <th class="col-fecha">
+                            Fecha última versión
+                        </th>
+
+                        <th class="col-valor">
+                            Valor
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody id="tablaRegistros">
+                    <tr>
+                        <td colspan="9" class="text-center text-muted">
+                            Haz clic en “Listar todo” o busca una OP / cliente.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-between align-items-center px-2 py-2 flex-wrap gap-2">
+            <small id="listadoPaginacionInfo" class="text-muted"></small>
+            <div class="d-flex gap-2">
+                <button id="listadoPaginaAnterior" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaListado(-1)" disabled>Anterior</button>
+                <button id="listadoPaginaSiguiente" class="btn btn-sm btn-outline-secondary" onclick="cambiarPaginaListado(1)" disabled>Siguiente</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL VER REGISTRO -->
+    <div class="modal fade" id="modalVerRegistro" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable modal-ver-registro">
+            <div class="modal-content">
+
+                <div class="modal-header app-modal-header">
+                    <h5 class="modal-title">Detalle completo del registro</h5>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="contenidoVerRegistro"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cerrar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

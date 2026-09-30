@@ -1,0 +1,77 @@
+{#
+    ============================================================
+    DOCUMENTACIÓN DE PLANTILLA
+    ============================================================
+    Vista de reportes gerenciales: contenedor HTML para tarjetas, gráficas, tablas y exportaciones.
+
+    Convenciones:
+    - Los bloques Jinja permiten heredar estructura desde base.html.
+    - Los ids/clases son usados por CSS y por JavaScript embebido; cambiar nombres puede romper filtros o renderizados.
+    - Las llamadas fetch consumen endpoints Flask definidos en app.py o routes/export_routes.py.
+    ============================================================
+#}
+<div class="tab-pane fade" id="tabReportes">
+    <div class="card p-3 mb-3 powerbi-header">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <img src="{{ url_for('static', filename='imagenes/logo/enel.png') }}?v=3" class="report-logo" alt="ENEL">
+                <div>
+                    <h4 class="mb-0">Gestión de Ofertas – Oficina Técnica</h4>
+                    <small>Reporte gerencial local basado en la información de SharePoint</small>
+                </div>
+            </div>
+            <div class="d-flex gap-2 flex-wrap"><div id="reportGlobalExports"></div><button class="btn btn-app-primary" onclick="cargarReportes(true)">Actualizar reporte</button></div>
+        </div>
+    </div>
+
+    <div class="card p-2 mb-3 report-filter-card">
+        <div class="report-filter-line">
+            <div><label>Año</label><div id="repFiltroAnio"></div></div>
+            <div><label>Mes</label><div id="repFiltroMes"></div></div>
+            <div><label>Día</label><div id="repFiltroDia"></div></div>
+            <div><label>Activa / Cerrada</label><div id="repFiltroEstadoAC"></div></div>
+            <div><label>Estado Oferta O.T.</label><div id="repFiltroEstadoOT"></div></div>
+            <div><label>Tipo de proyecto</label><div id="repFiltroTipoProyecto"></div></div>
+            <div><label>Producto</label><div id="repFiltroProducto"></div></div>
+            <div><label>Segmento</label><div id="repFiltroSegmento"></div></div>
+            <div><label>Aliado</label><div id="repFiltroAliado"></div></div>
+            <div><button class="btn btn-sm btn-outline-secondary w-100" onclick="limpiarFiltrosReportes()">Limpiar</button></div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs report-subtabs mb-3" role="tablist">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#repGeneral" type="button">1. General</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repDetalleOP" type="button">2. Detalle de brief</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repTiemposGlobal" type="button">3. Tiempos global</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repDetalleOfertas" type="button">4. Detalle Ofertas</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repANSOT" type="button">5. ANS O.T</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repPendientesKAM" type="button">6. Pendientes KAM</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repPendientesContratos" type="button">7. Pendientes Contratos</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repPV" type="button">8. PV</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repAPLighting" type="button">9. AP / Navidad</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repBP" type="button">10. BP</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repMobility" type="button">11. Mobility</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repVigentesProceso" type="button">12. Vigentes</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repJefatura" type="button">13. Ofertas en proceso</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#repAlertaTiempos" type="button">14. Alerta Tiempos</button></li>
+    </ul>
+
+    <div id="reportLoading" class="alert alert-info d-none">Actualizando reporte...</div>
+
+    <div class="tab-content report-content">
+        <div class="tab-pane fade show active" id="repGeneral"><div id="repGeneralContent"></div></div>
+        <div class="tab-pane fade" id="repDetalleOP"><div id="repDetalleOPContent"></div></div>
+        <div class="tab-pane fade" id="repTiemposGlobal"><div id="repTiemposGlobalContent"></div></div>
+        <div class="tab-pane fade" id="repDetalleOfertas"><div id="repDetalleOfertasContent"></div></div>
+        <div class="tab-pane fade" id="repANSOT"><div id="repANSOTContent"></div></div>
+        <div class="tab-pane fade" id="repPendientesKAM"><div id="repPendientesKAMContent"></div></div>
+        <div class="tab-pane fade" id="repPendientesContratos"><div id="repPendientesContratosContent"></div></div>
+        <div class="tab-pane fade" id="repPV"><div id="repPVContent"></div></div>
+        <div class="tab-pane fade" id="repAPLighting"><div id="repAPLightingContent"></div></div>
+        <div class="tab-pane fade" id="repBP"><div id="repBPContent"></div></div>
+        <div class="tab-pane fade" id="repMobility"><div id="repMobilityContent"></div></div>
+        <div class="tab-pane fade" id="repVigentesProceso"><div id="repVigentesProcesoContent"></div></div>
+        <div class="tab-pane fade" id="repJefatura"><div id="repJefaturaContent"></div></div>
+        <div class="tab-pane fade" id="repAlertaTiempos"><div id="repAlertaTiemposContent"></div></div>
+    </div>
+</div>

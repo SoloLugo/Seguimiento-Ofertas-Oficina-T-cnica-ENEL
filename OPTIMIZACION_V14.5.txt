@@ -1,0 +1,9 @@
+OT V14.5 - Optimización de rendimiento
+
+- Caché SharePoint ampliada a 15 minutos.
+- Listar todo ya no fuerza recarga de SharePoint en cada clic. CRUD invalida la caché automáticamente.
+- Lectura SharePoint por bloques de 2000 usando Id indexado: menos viajes de red manteniendo seguridad frente al umbral.
+- /api/items y /api/search devuelven un DTO compacto para reducir tamaño del JSON.
+- La tabla renderiza 150 filas por página para evitar crear miles de nodos DOM de una vez.
+- Reportes y estadísticas reutilizan la misma caché de SharePoint.
+- Marca interna de código: Valentina Becerra (comentarios de código; no visible en UI).
